@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+service GameService {
+  rpc CreateGame(GameFormat) returns (GameResponse);
+  rpc AvailableGames(Empty) returns (GameList);
+  rpc StartGame(GameRequest) returns (GameMessage);
+  rpc GetPlayerField(PlayerRequest) returns (PlayerFieldResponse);
+  rpc PlaceShips(PlaceShipsRequest) returns (GameMessage);
+  rpc Attack(AttackRequest) returns (AttackResponse);
+}
+
+message Empty {}
+
+message GameFormat {
+  string format = 1;
+}
+
+message GameResponse {
+  string game_id = 1;
+}
+
+message GameList {
+  repeated string games = 1;
+}
+
+message GameRequest {
+  string game_id = 1;
+  string format = 2;
+}
+
+message GameMessage {
+  string message = 1;
+}
+
+message PlayerRequest {
+  string game_id = 1;
+  string player = 2;
+}
+
+message PlayerFieldResponse {
+  repeated Ship ships = 1;
+}
+
+message Ship {
+  int32 row = 1;
+  int32 col = 2;
+}
+
+message Ships {
+  repeated Ship ships = 1;
+}
+
+message PlaceShipsRequest {
+  string game_id = 1;
+  string player = 2;
+  Ships ships = 3;
+}
+
+message AttackRequest {
+  string game_id = 1;
+  string player = 2;
+  int32 row = 3;
+  int32 col = 4;
+}
+
+message AttackResponse {
+  string result = 1;
+  bool victory = 2;
+  string winner = 3;
+  int32 row = 4;
+  int32 col = 5;
+  int32 ai_row = 6;
+  int32 ai_col = 7;
+  string ai_result = 8;
+}
