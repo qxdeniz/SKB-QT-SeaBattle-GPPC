@@ -13,7 +13,7 @@
 #include <QHBoxLayout>
 
 BattleField::BattleField(QWidget *parent, GameManager *gameManager)
-    : QWidget(parent), gameManager(gameManager), manager(new QNetworkAccessManager(this)) {
+    : QWidget(parent), gameManager(gameManager) {
 
     QVBoxLayout *layout = new QVBoxLayout(this);
 

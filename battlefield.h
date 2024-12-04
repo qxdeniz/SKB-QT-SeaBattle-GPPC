@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QGridLayout>
 #include <QPushButton>
-#include <QNetworkAccessManager>
 #include <QComboBox>
 #include "game_manager.h"
 

@@ -12,31 +12,30 @@ class GameServiceServicer(pb2_grpc.GameServiceServicer):
         self.game_actions = gameActions(self.game_repo)
 
     def CreateGame(self, request, context):
-        """Создать игру."""
         try:
             game_id = self.game_actions.create(request.format)
             return pb2.GameResponse(game_id=game_id)
         except Exception as e:
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(f"Error creating game: {e}")
-            return pb2.GameResponse()  # Пустой объект ответа
+            return pb2.GameResponse()  
 
     def AvailableGames(self, request, context):
         """Получить список доступных игр."""
         try:
-            games = self.game_repo.get_available_games()  # Предполагаемый метод
+            games = self.game_repo.get_available_games() 
             game_list = [pb2.GameInfo(id=game["id"], name=game["name"]) for game in games]
             return pb2.GameList(games=game_list)
         except Exception as e:
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(f"Error fetching available games: {e}")
-            return pb2.GameList()  # Пустой список
+            return pb2.GameList()  
 
     def StartGame(self, request, context):
         """Начать игру."""
         try:
             game_id = request.game_id
-            success = self.game_actions.start(game_id)  # Предполагаемый метод
+            success = self.game_actions.start(game_id)  
             if success:
                 return pb2.GameMessage(message="Game started successfully.")
             else:
@@ -49,9 +48,8 @@ class GameServiceServicer(pb2_grpc.GameServiceServicer):
             return pb2.GameMessage()
 
     def GetPlayerField(self, request, context):
-        """Получить поле игрока."""
         try:
-            player_field = self.game_repo.get_game(request.player_id)  # Предполагаемый метод
+            player_field = self.game_repo.get_game(request.player_id)  
             return pb2.PlayerFieldResponse(field=player_field)
         except Exception as e:
             context.set_code(grpc.StatusCode.INTERNAL)
@@ -59,7 +57,6 @@ class GameServiceServicer(pb2_grpc.GameServiceServicer):
             return pb2.PlayerFieldResponse()
 
     def PlaceShips(self, request, context):
-        """Разместить корабли."""
         try:
             success = self.game_actions.place_ships(
                 request.game_id, request.player_id, request.ship_positions
